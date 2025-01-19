@@ -14,16 +14,6 @@ class CardHolder(ABC):
         pass
 
 class Dealer(CardHolder):
-    @abstractmethod
-    def two_fight_three(self, round: int, pocket: Pocket, hand: Hand) -> bool:
-        pass
-
-class Player(CardHolder):
-    @abstractmethod
-    def place_bet(self, round: int, pocket: Pocket) -> Decimal:
-        pass
-
-class DefaultDealer(Dealer):
     def __init__(self, card_holder_id: CardHolderId = None):
         if card_holder_id is None:
             card_holder_id = CardHolderId()
@@ -35,7 +25,7 @@ class DefaultDealer(Dealer):
     def two_fight_three(self, round: int, pocket: Pocket, hand: Hand) -> bool:
         return hand.score() > 5
 
-class DefaultPlayer(Player):
+class Player(CardHolder):
     def __init__(self, card_holder_id: CardHolderId = None):
         if card_holder_id is None:
             card_holder_id = CardHolderId()
