@@ -74,7 +74,7 @@ class Hand:
         return combination in {"234", "345", "456", "567", "678", "789", "89T", "9TJ", "TJQ", "JQK", "QKA"}
 
     def three_yellow(self) -> bool:
-        return self.num_cards() == 3 and self.__num_faces() == 3 and not self.straight()
+        return self.num_cards() == 3 and self.__num_faces() == 3 and not self.straight() and not self.tong()
 
     def deng(self) -> int:
         if self.num_cards() == 2:
