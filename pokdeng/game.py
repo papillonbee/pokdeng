@@ -16,7 +16,7 @@ class Game:
             raise GameLessThan1Player()
         if len(players) > 16:
             raise GameMoreThan16Players()
-        if ({player for player in players if pockets.get(player.card_holder_id) is not None}) == len(players) and pockets.get(dealer.card_holder_id) is not None:
+        if len({player for player in players if pockets.get(player.card_holder_id) is not None}) != len(players) or pockets.get(dealer.card_holder_id) is None:
             raise GamePocketMismatch()
 
         self.dealer: Dealer = dealer
