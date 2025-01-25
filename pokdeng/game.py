@@ -23,15 +23,15 @@ class Game:
         self.players: List[Player] = players
         self.pockets: Dict[CardHolderId, Pocket] = pockets
 
-        self.round = 0
-        self.verbose = verbose
+        self.round: int = 0
+        self.verbose: bool = verbose
 
     def play(self, num_rounds: int):
         for _ in range(num_rounds):
             self.round += 1
             deck: Deck = Deck()
             bets: Dict[CardHolderId, Decimal] = {player.card_holder_id : player.place_bet(self.round, self.pockets[player.card_holder_id]) for player in self.players}
-            players = [player for player in self.players if bets.get(player.card_holder_id) is not None]
+            players: List[Player] = [player for player in self.players if bets.get(player.card_holder_id) is not None]
             hands: Dict[CardHolderId, Hand] = {}
 
             if len(players) == 0:
@@ -49,7 +49,7 @@ class Game:
                     continue
                 pocket = self.pockets.get(player.card_holder_id)
                 if player.draw_card(self.round, pocket, player_hand):
-                    player_hand.cards.append(deck.draw())
+                    hands[player.card_holder_id] = Hand(cards = player_hand.cards + [deck.draw()])
 
             dealer_pocket = self.pockets.get(self.dealer.card_holder_id)
             dealer_hand = hands.get(self.dealer.card_holder_id)
@@ -63,7 +63,7 @@ class Game:
             if self.dealer.two_fight_three(self.round, dealer_pocket, dealer_hand):
                 players_with_3_cards = [player for player in players if hands.get(player.card_holder_id).num_cards() == 3]
                 self.__settle_all(players_with_3_cards, bets, hands)
-                dealer_hand.cards.append(deck.draw())
+                hands[self.dealer.card_holder_id] = Hand(cards = dealer_hand.cards + [deck.draw()])
                 players_with_2_cards = [player for player in players if hands.get(player.card_holder_id).num_cards() == 2]
                 self.__settle_all(players_with_2_cards, bets, hands)
                 if self.verbose:
@@ -71,7 +71,7 @@ class Game:
                 continue
             
             if self.dealer.draw_card(self.round, dealer_pocket, dealer_hand):
-                dealer_hand.cards.append(deck.draw())
+                hands[self.dealer.card_holder_id] = Hand(cards = dealer_hand.cards + [deck.draw()])
             
             self.__settle_all(players, bets, hands)
             if self.verbose:
@@ -96,7 +96,7 @@ class Game:
                     pass
     
     def __pay_dealer(self, player: Player, bets: Dict[CardHolderId, Decimal], deng: int):
-        bet = bets.get(player.card_holder_id)        
+        bet = bets.get(player.card_holder_id)
         amount: Decimal = bet * deng
 
         dealer_pocket = self.pockets.get(self.dealer.card_holder_id)
