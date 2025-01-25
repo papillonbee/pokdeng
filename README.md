@@ -71,7 +71,7 @@ anita_pocket = Pocket(anita.card_holder_id, Decimal(0))
 
 Create a collection of pockets by dealer/player
 ```python
-pockets = {kanye.card_holder_id: kanye_pocket, ben.card_holder_id: ben_pocket, anita.card_holder_id: anita_pocket}
+pockets = {pocket.card_holder_id: pocket for pocket in [kanye_pocket, ben_pocket, anita_pocket]}
 ```
 
 Create a game of 1 dealer, a list of players, and a collection of pockets by dealer/player
@@ -86,10 +86,10 @@ game.play(200)
 
 Check total amount in each pocket afterwards
 ```python
-[(str(card_holder_id.value), pocket.total_amount) for card_holder_id, pocket in pockets.items()]
+[(card_holder_id.value, pocket.total_amount) for card_holder_id, pocket in pockets.items()]
 ```
 
-Pokdeng is a zero sum game, meaning the total amount in each pocket should sum to zero
+Pokdeng is a zero sum game, meaning the total amount of every pockets after each play always sums to the initial total amount of every pockets
 
 ---
 
