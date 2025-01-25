@@ -1,4 +1,5 @@
 from unittest import TestCase, main
+
 from pokdeng.card import Card, Rank, Suit
 from pokdeng.exception import DuplicateCards, HandLessThan2Cards, HandMoreThan3Cards
 from pokdeng.hand import Hand
@@ -20,112 +21,112 @@ class TestHand(TestCase):
     def test_pok_nine(self):
         # A8 is pok nine
         hand = Hand(cards = [Card(Rank.ACE, Suit.CLUB), Card(Rank.EIGHT, Suit.HEART)])
-        self.assertEqual(hand.pok_nine(), True)
+        self.assertTrue(hand.pok_nine())
 
         # A7 is pok eight
         hand = Hand(cards = [Card(Rank.ACE, Suit.CLUB), Card(Rank.SEVEN, Suit.HEART)])
-        self.assertEqual(hand.pok_nine(), False)
+        self.assertFalse(hand.pok_nine())
 
         # A26 is normal 9
         hand = Hand(cards = [Card(Rank.ACE, Suit.CLUB), Card(Rank.TWO, Suit.SPADE), Card(Rank.SIX, Suit.HEART)])
-        self.assertEqual(hand.pok_nine(), False)
+        self.assertFalse(hand.pok_nine())
 
     def test_pok_eight(self):
         # A7 is pok eight
         hand = Hand(cards = [Card(Rank.ACE, Suit.CLUB), Card(Rank.SEVEN, Suit.HEART)])
-        self.assertEqual(hand.pok_eight(), True)
+        self.assertTrue(hand.pok_eight())
 
         # A8 is pok nine
         hand = Hand(cards = [Card(Rank.ACE, Suit.CLUB), Card(Rank.EIGHT, Suit.HEART)])
-        self.assertEqual(hand.pok_eight(), False)
+        self.assertFalse(hand.pok_eight())
 
         # AA6 is nornal 8
         hand = Hand(cards = [Card(Rank.ACE, Suit.CLUB), Card(Rank.ACE, Suit.SPADE), Card(Rank.SIX, Suit.HEART)])
-        self.assertEqual(hand.pok_eight(), False)
+        self.assertFalse(hand.pok_eight())
 
     def test_tong(self):
         # 999 is tong
         hand = Hand(cards = [Card(Rank.NINE, Suit.CLUB), Card(Rank.NINE, Suit.DIAMOND), Card(Rank.NINE, Suit.HEART)])
-        self.assertEqual(hand.tong(), True)
+        self.assertTrue(hand.tong())
 
         # 99T is normal 8
         hand = Hand(cards = [Card(Rank.NINE, Suit.CLUB), Card(Rank.NINE, Suit.DIAMOND), Card(Rank.TEN, Suit.HEART)])
-        self.assertEqual(hand.tong(), False)
+        self.assertFalse(hand.tong())
 
         # JJJ is tong
         hand = Hand(cards = [Card(Rank.JACK, Suit.CLUB), Card(Rank.JACK, Suit.DIAMOND), Card(Rank.JACK, Suit.HEART)])
-        self.assertEqual(hand.tong(), True)
+        self.assertTrue(hand.tong())
     
     def test_straight_flush(self):
         # 234 same suit is straight flush
         hand = Hand(cards = [Card(Rank.TWO, Suit.CLUB), Card(Rank.THREE, Suit.CLUB), Card(Rank.FOUR, Suit.CLUB)])
-        self.assertEqual(hand.straight_flush(), True)
+        self.assertTrue(hand.straight_flush())
 
         # JQK same suit is straight flush
         hand = Hand(cards = [Card(Rank.JACK, Suit.CLUB), Card(Rank.QUEEN, Suit.CLUB), Card(Rank.KING, Suit.CLUB)])
-        self.assertEqual(hand.straight_flush(), True)
+        self.assertTrue(hand.straight_flush())
 
         # QKA same suit is straight flush
         hand = Hand(cards = [Card(Rank.QUEEN, Suit.CLUB), Card(Rank.KING, Suit.CLUB), Card(Rank.ACE, Suit.CLUB)])
-        self.assertEqual(hand.straight_flush(), True)
+        self.assertTrue(hand.straight_flush())
 
         # KA2 same suit is normal 3 3 deng
         hand = Hand(cards = [Card(Rank.KING, Suit.CLUB), Card(Rank.ACE, Suit.CLUB), Card(Rank.TWO, Suit.CLUB)])
-        self.assertEqual(hand.straight_flush(), False)
+        self.assertFalse(hand.straight_flush())
 
         # A23 same suit is normal 6 3 deng
         hand = Hand(cards = [Card(Rank.ACE, Suit.CLUB), Card(Rank.TWO, Suit.CLUB), Card(Rank.THREE, Suit.CLUB)])
-        self.assertEqual(hand.straight_flush(), False)
+        self.assertFalse(hand.straight_flush())
 
         # 567 different suit is straight
         hand = Hand(cards = [Card(Rank.FIVE, Suit.CLUB), Card(Rank.SIX, Suit.CLUB), Card(Rank.SEVEN, Suit.HEART)])
-        self.assertEqual(hand.straight_flush(), False)
+        self.assertFalse(hand.straight_flush())
 
         # 45 same suit is pok nine
         hand = Hand(cards = [Card(Rank.FOUR, Suit.CLUB), Card(Rank.FIVE, Suit.CLUB)])
-        self.assertEqual(hand.straight_flush(), False)
+        self.assertFalse(hand.straight_flush())
 
     def test_straight(self):
         # 234 different suit is straight
         hand = Hand(cards = [Card(Rank.TWO, Suit.CLUB), Card(Rank.THREE, Suit.CLUB), Card(Rank.FOUR, Suit.CLUB)])
-        self.assertEqual(hand.straight(), True)
+        self.assertTrue(hand.straight())
 
         # JQK same suit is both straight and straight flush
         hand = Hand(cards = [Card(Rank.JACK, Suit.CLUB), Card(Rank.QUEEN, Suit.CLUB), Card(Rank.KING, Suit.CLUB)])
-        self.assertEqual(hand.straight(), True)
+        self.assertTrue(hand.straight())
 
         # QKA same suit is both straight and straight flush
         hand = Hand(cards = [Card(Rank.QUEEN, Suit.CLUB), Card(Rank.KING, Suit.CLUB), Card(Rank.ACE, Suit.CLUB)])
-        self.assertEqual(hand.straight(), True)
+        self.assertTrue(hand.straight())
 
         # KA2 same suit is normal 2 3 deng
         hand = Hand(cards = [Card(Rank.KING, Suit.CLUB), Card(Rank.ACE, Suit.CLUB), Card(Rank.TWO, Suit.CLUB)])
-        self.assertEqual(hand.straight(), False)
+        self.assertFalse(hand.straight())
 
         # A23 same suit is normal 6 3 deng
         hand = Hand(cards = [Card(Rank.ACE, Suit.CLUB), Card(Rank.TWO, Suit.CLUB), Card(Rank.THREE, Suit.CLUB)])
-        self.assertEqual(hand.straight(), False)
+        self.assertFalse(hand.straight())
 
         # 567 different suit is straight
         hand = Hand(cards = [Card(Rank.FIVE, Suit.CLUB), Card(Rank.SIX, Suit.CLUB), Card(Rank.SEVEN, Suit.HEART)])
-        self.assertEqual(hand.straight(), True)
+        self.assertTrue(hand.straight())
 
         # 45 same suit is pok nine
         hand = Hand(cards = [Card(Rank.FOUR, Suit.CLUB), Card(Rank.FIVE, Suit.CLUB)])
-        self.assertEqual(hand.straight(), False)
+        self.assertFalse(hand.straight())
 
     def test_three_yellow(self):
         # JJQ different suit is three yellow
         hand = Hand(cards = [Card(Rank.JACK, Suit.CLUB), Card(Rank.JACK, Suit.DIAMOND), Card(Rank.QUEEN, Suit.HEART)])
-        self.assertEqual(hand.three_yellow(), True)
+        self.assertTrue(hand.three_yellow())
 
         # JJJ is tong
         hand = Hand(cards = [Card(Rank.JACK, Suit.CLUB), Card(Rank.JACK, Suit.DIAMOND), Card(Rank.JACK, Suit.HEART)])
-        self.assertEqual(hand.three_yellow(), False)
+        self.assertFalse(hand.three_yellow())
 
         # JJA is normal 1
         hand = Hand(cards = [Card(Rank.JACK, Suit.CLUB), Card(Rank.JACK, Suit.DIAMOND), Card(Rank.ACE, Suit.HEART)])
-        self.assertEqual(hand.three_yellow(), False)
+        self.assertFalse(hand.three_yellow())
     
     def test_compare_hand(self):
         # Case #1: JQK same suit (straight flush) ties with TJQ same suit (straight flush)
@@ -279,6 +280,47 @@ class TestHand(TestCase):
         hand1 = Hand(cards = [Card(Rank.JACK, Suit.SPADE), Card(Rank.KING, Suit.SPADE), Card(Rank.QUEEN, Suit.SPADE)])
         hand2 = Hand(cards = [Card(Rank.TWO, Suit.SPADE), Card(Rank.THREE, Suit.SPADE), Card(Rank.FOUR, Suit.SPADE)])
         self.assertTrue(hand1 < hand2)
+    
+    def test_deng(self):
+        # 2 cards same suit is 2 deng
+        hand = Hand(cards = [Card(Rank.ACE, Suit.SPADE), Card(Rank.TWO, Suit.SPADE)])
+        self.assertEqual(hand.deng(), 2)
+
+        # a pair is 2 deng
+        hand = Hand(cards = [Card(Rank.ACE, Suit.SPADE), Card(Rank.ACE, Suit.CLUB)])
+        self.assertEqual(hand.deng(), 2)
+
+        # 2 cards different suit is 1 deng
+        hand = Hand(cards = [Card(Rank.ACE, Suit.SPADE), Card(Rank.TWO, Suit.CLUB)])
+        self.assertEqual(hand.deng(), 1)
+
+        # tong is 5 deng
+        hand = Hand(cards = [Card(Rank.ACE, Suit.SPADE), Card(Rank.ACE, Suit.CLUB), Card(Rank.ACE, Suit.HEART)])
+        self.assertTrue(hand.tong())
+        self.assertEqual(hand.deng(), 5)
+
+        # straight flush is 5 deng
+        hand = Hand(cards = [Card(Rank.TWO, Suit.SPADE), Card(Rank.THREE, Suit.SPADE), Card(Rank.FOUR, Suit.SPADE)])
+        self.assertTrue(hand.straight_flush())
+        self.assertEqual(hand.deng(), 5)
+
+        # straight is 3 deng
+        hand = Hand(cards = [Card(Rank.TWO, Suit.SPADE), Card(Rank.THREE, Suit.CLUB), Card(Rank.FOUR, Suit.HEART)])
+        self.assertTrue(hand.straight())
+        self.assertEqual(hand.deng(), 3)
+
+        # three yellow is 3 deng
+        hand = Hand(cards = [Card(Rank.KING, Suit.SPADE), Card(Rank.QUEEN, Suit.CLUB), Card(Rank.QUEEN, Suit.HEART)])
+        self.assertTrue(hand.three_yellow())
+        self.assertEqual(hand.deng(), 3)
+
+        # 3 cards same suit is 3 deng
+        hand = Hand(cards = [Card(Rank.TWO, Suit.SPADE), Card(Rank.FIVE, Suit.SPADE), Card(Rank.QUEEN, Suit.SPADE)])
+        self.assertEqual(hand.deng(), 3)
+
+        # 3 cards different suit is 1 deng
+        hand = Hand(cards = [Card(Rank.TWO, Suit.SPADE), Card(Rank.FIVE, Suit.SPADE), Card(Rank.QUEEN, Suit.HEART)])
+        self.assertEqual(hand.deng(), 1)
 
 if __name__ == '__main__':
     main()
