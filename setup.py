@@ -5,7 +5,7 @@ with open("README.md", "r") as fh:
 
 setuptools.setup(
     name="pokdeng",
-    version="0.0.2",
+    version="0.0.3",
     author="Papan Yongmalwong",
     author_email="papillonbee@gmail.com",
     description="pokdeng is a package for simulating rounds of pokdeng games!",
